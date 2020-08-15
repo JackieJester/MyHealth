@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">MyHealth</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dont_have_account">Don\'t have account</string>
+    <string name="login">Login</string>
+    <string name="sign_up">SignUp</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="cardiologie">Cardiologie</string>
+    <string name="dermatologie">Dermatologie</string>
+    <string name="endocrinologie">Endocrinologie</string>
+    <string name="gastroenterologie">Gastroenterologie</string>
+    <string name="hematologie">Hematologie</string>
+    <string name="pneumologie">Pneumologie</string>
+    <string name="neurologie">Neurologie</string>
+    <string name="psihiatrie">Psihiatrie</string>
+    <string name="name">Prenume</string>
+    <string name="surname">Nume</string>
+    <string name="phone">Numar de telefon</string>
+    <string name="update_profile">Save</string>
+    <string name="isDoctor">Doctor</string>
+    <string name="Send">Send</string>
+
+
+
+</resources>

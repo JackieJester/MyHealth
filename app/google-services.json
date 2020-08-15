@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "195405832519",
+    "firebase_url": "https://myhealth2-ba7c7.firebaseio.com",
+    "project_id": "myhealth2-ba7c7",
+    "storage_bucket": "myhealth2-ba7c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:195405832519:android:b879bea7f600486a2eec62",
+        "android_client_info": {
+          "package_name": "ro.georgemarinescu.myhealth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "195405832519-767pu3hg722ffuifb060p7nf2aadlvrm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ro.georgemarinescu.myhealth",
+            "certificate_hash": "4a6fce16ec26fcedb6c60a6602e8309dea956e00"
+          }
+        },
+        {
+          "client_id": "195405832519-3mpc39eqmufiu1j4ne2nc17mshk2plod.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVqeRxLER9G1oQ_6B2AoRxsdf7N_vt894"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "195405832519-3mpc39eqmufiu1j4ne2nc17mshk2plod.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
