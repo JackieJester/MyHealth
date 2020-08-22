@@ -11,7 +11,7 @@ import javax.inject.Inject
  * Manages access to the Android soft keyboard.
  */
 class KeyboardManager @Inject constructor(private val activity: Activity) {
-
+    var standardHeight = 0
     /**
      * Observable of the status of the keyboard. Subscribing to this creates a
      * Global Layout Listener which is automatically removed when this
@@ -35,7 +35,7 @@ class KeyboardManager @Inject constructor(private val activity: Activity) {
             val keypadHeight = screenHeight - rect.bottom
 
             // 0.15 ratio is perhaps enough to determine keypad height.
-            if (keypadHeight > screenHeight * 0.15) {
+            if (screenHeight < standardHeight ) {
                 emitter.onNext(KeyboardStatus.OPEN)
             } else {
                 emitter.onNext(KeyboardStatus.CLOSED)

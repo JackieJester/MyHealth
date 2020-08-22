@@ -55,9 +55,10 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:2.28.3"
     implementation 'com.uber.autodispose2:autodispose:2.0.0'
     implementation 'com.uber.autodispose2:autodispose-androidx-lifecycle:2.0.0'
-    //implementation 'com.uber.autodispose:autodispose-rxlifecycle3:1.4.0'
-    //implementation 'com.uber.autodispose2:autodispose-lifecycle:2.0.0'
     implementation 'com.uber.autodispose2:autodispose-android:2.0.0'
+    implementation 'org.webrtc:google-webrtc:1.0.22512'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.google.android.material:material:1.2.0'
     // Card View
     def cardview_version = "1.0.0"
     implementation "androidx.cardview:cardview:$cardview_version"

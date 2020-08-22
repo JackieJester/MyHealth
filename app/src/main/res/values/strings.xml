@@ -22,7 +22,14 @@
     <string name="update_profile">Save</string>
     <string name="isDoctor">Doctor</string>
     <string name="Send">Send</string>
-
+    <string name="status_unknown">Unknown</string>
+    <string name="status_connecting">Connecting …</string>
+    <string name="status_connected">Connected!</string>
+    <string name="status_matching">Matching …</string>
+    <string name="status_failed">Failed</string>
+    <string name="start">Start</string>
+    <string name="status_finished">Finished</string>
+    <string name="status_dialing">Dialing</string>
 
 
 </resources>

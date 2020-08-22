@@ -1,24 +1,46 @@
 package ro.georgemarinescu.myhealth
 
-import android.content.Intent
+import android.app.ActionBar
 import android.os.Bundle
+import android.text.Layout
 import android.util.Patterns
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.WindowManager
+import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.android.synthetic.main.fragment_register.*
+import ro.georgemarinescu.myhealth.models.DataSource
 import ro.georgemarinescu.myhealth.models.Profile
+
 
 /**
  * A simple [Fragment] subclass.
  */
 class RegisterFragment : Fragment() {
+    var rg: RadioGroup? = null
+    var linear: LinearLayout? = null
+    var originalMode : Int? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        originalMode = activity?.window?.attributes?.softInputMode
+        activity?.window?.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        originalMode?.let { activity?.window?.setSoftInputMode(it) }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,12 +48,54 @@ class RegisterFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_register, container, false)
         view.btn_sign_up.setOnClickListener {
-
             signUpUser()
         }
         return view
     }
-    fun signUpUser(){
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+         linear = view?.findViewById<LinearLayout>(R.id.specialisation_list_layout)
+        switch_btn.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked) {
+                makeVisible()
+                populateSpecialisationList()
+            }
+            else {
+                makeInvisible()
+                if(rg != null)
+                    linear?.removeView(rg)
+            }
+        }
+
+
+    }
+    private fun makeVisible(){
+        doctor_name.visibility = View.VISIBLE
+        doctor_surname.visibility = View.VISIBLE
+        doctor_phone.visibility = View.VISIBLE
+    }
+
+    private fun makeInvisible(){
+        doctor_name.visibility = View.INVISIBLE
+        doctor_surname.visibility = View.INVISIBLE
+        doctor_phone.visibility = View.INVISIBLE
+
+    }
+    private fun populateSpecialisationList(){
+        rg = RadioGroup(context)
+        rg?.orientation = RadioGroup.VERTICAL
+        val option = DataSource.createDataSet()
+        for(i in option.indices){
+            val rb = RadioButton(context)
+            rb.text = option[i].title
+            rb.id = View.generateViewId()
+            rg?.addView(rb)
+        }
+        linear?.addView(rg)
+    }
+    private fun signUpUser(){
         if(view?.username?.text.toString().isEmpty()){
             view?.username?.error = "Please enter email"
             view?.username?.requestFocus()
@@ -47,6 +111,7 @@ class RegisterFragment : Fragment() {
             view?.password?.requestFocus()
             return
         }
+        //TODO: doctors name,surname and password errors and requestFocus
         (activity as MainActivity).auth.createUserWithEmailAndPassword(view?.username?.text.toString(), view?.password?.text.toString())
             .addOnCompleteListener(activity as MainActivity) { task ->
                 if (task.isSuccessful) {
@@ -57,7 +122,9 @@ class RegisterFragment : Fragment() {
                             if (task.isSuccessful) {
                                 //salvarea baza de date
                                 val ref = FirebaseDatabase.getInstance().getReference("profiles")
-                                val profile = Profile(user.uid,"","", "",switch_btn.isChecked)
+                                val profile = Profile(user.uid,doctor_surname.text.toString(),
+                                    doctor_name.text.toString(), doctor_phone.text.toString(),
+                                    switch_btn.isChecked, rg?.findViewById<RadioButton>(rg!!.checkedRadioButtonId)!!.text.toString())
                                 ref.child(user.uid).setValue(profile)
                                 findNavController().navigate(R.id.loginFragment)
                             }
