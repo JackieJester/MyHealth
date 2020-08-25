@@ -11,9 +11,10 @@
         android:id="@+id/editText_chatlog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:padding="12dp"
         android:hint="Enter Message"
         android:inputType="textPersonName"
+        android:background="@drawable/rounded_edittext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/send_button_chat_log"
         app:layout_constraintStart_toStartOf="parent" />
@@ -23,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Send"
-        android:background="@drawable/rounded_edittext"
+        android:background="@drawable/rounded_login_buttons"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

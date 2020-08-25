@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.animation.AlphaAnimation
 import androidx.fragment.app.Fragment
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -25,6 +26,7 @@ class MainScreenFragment : Fragment(), OnCardItemClickListner {
     private lateinit var cardAdapter: RecyclerAdapter
     private var backPressedTime = 0L
     public lateinit var auth: FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -57,7 +59,7 @@ class MainScreenFragment : Fragment(), OnCardItemClickListner {
         if(id == R.id.logOut_action){
             Toast.makeText(context,"Logout pressed", Toast.LENGTH_SHORT).show()
             auth.signOut()
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.loginFragment)
 
 
         }
@@ -77,7 +79,6 @@ class MainScreenFragment : Fragment(), OnCardItemClickListner {
         val view = inflater.inflate(R.layout.fragment_main_screen, container, false)
         return view
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()

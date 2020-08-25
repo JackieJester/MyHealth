@@ -4,8 +4,14 @@
 
 
     <item
+        android:id="@+id/profile_action"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/profile"
+        android:title="Profile"></item>
+    <item
         android:id="@+id/logOut_action"
         app:showAsAction="ifRoom"
+        android:icon="@drawable/log_out"
         android:title="Log Out"></item>
 
 

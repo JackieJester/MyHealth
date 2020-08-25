@@ -62,11 +62,11 @@ class FirebaseSignaler(val callerID: String) {
         }
 
         override fun onChildRemoved(p0: DataSnapshot) {
-            TODO("Not yet implemented")
+
         }
 
         override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-            TODO("Not yet implemented")
+
         }
 
         override fun onCancelled(e: DatabaseError) {

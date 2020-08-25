@@ -27,7 +27,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         auth = FirebaseAuth.getInstance()
         currentUser = auth.currentUser
+        FirebaseData.myID = currentUser?.uid ?: ""
         callRef = FirebaseData.database.getReference("calls/${currentUser?.uid}/id")
+
         }
 
     private fun receiveVideoCall(key: String) {

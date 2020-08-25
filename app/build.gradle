@@ -59,6 +59,8 @@ dependencies {
     implementation 'org.webrtc:google-webrtc:1.0.22512'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.google.android.material:material:1.2.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
     // Card View
     def cardview_version = "1.0.0"
     implementation "androidx.cardview:cardview:$cardview_version"

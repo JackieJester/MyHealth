@@ -1,6 +1,10 @@
 package ro.georgemarinescu.myhealth.conversations
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.*
 import android.widget.Toast
@@ -14,10 +18,15 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_doctor.view.*
 import ro.georgemarinescu.myhealth.R
 import ro.georgemarinescu.myhealth.models.Conversation
 import ro.georgemarinescu.myhealth.models.Profile
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 
 class doctorFragment : Fragment(), OnConversationClickListner {
     lateinit var auth: FirebaseAuth
@@ -25,11 +34,17 @@ class doctorFragment : Fragment(), OnConversationClickListner {
     lateinit var list : ArrayList<Conversation>
     lateinit var adapter: ConversationAdapter
     lateinit var profile:Profile
+    val REQUEST_IMAGE_CAPTURE = 1
+    var imageInputStream: ByteArrayInputStream? = null
+    var userId: String = ""
+    lateinit var storageRef: StorageReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
+        storageRef = FirebaseStorage.getInstance().getReference("images")
         auth = FirebaseAuth.getInstance()
+        userId = auth.currentUser!!.uid
         requireActivity()
             .onBackPressedDispatcher
             .addCallback(this, object : OnBackPressedCallback(true) {
@@ -47,11 +62,18 @@ class doctorFragment : Fragment(), OnConversationClickListner {
             )
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
+            imageInputStream?.let {
+                val userImageRef = storageRef.child("$userId.png")
+                userImageRef.putStream(it)
+            }
+
+
         return inflater.inflate(R.layout.fragment_doctor, container, false)
     }
 
@@ -65,11 +87,17 @@ class doctorFragment : Fragment(), OnConversationClickListner {
         if(id == R.id.logOut_action){
             Toast.makeText(context,"Logout pressed", Toast.LENGTH_SHORT).show()
             auth.signOut()
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.loginFragment)
+        }
+        if(id == R.id.profile_action){
+            findNavController().navigate(R.id.accountFragment)
         }
 
         return super.onOptionsItemSelected(item)
     }
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -105,7 +133,7 @@ class doctorFragment : Fragment(), OnConversationClickListner {
     }
 
     override fun onClick(item: String) {
-        val bundle = bundleOf("id" to item)
+        val bundle = bundleOf("id" to item, "doctorId" to userId)
         findNavController().navigate(R.id.chat_logFragment,bundle)
     }
     fun getProfilesInfo(){

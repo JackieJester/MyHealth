@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -20,13 +21,17 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_account.view.*
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
+import kotlinx.android.synthetic.main.fragment_register.*
+import kotlinx.android.synthetic.main.fragment_register.btn_sign_up
 import ro.georgemarinescu.myhealth.models.Profile
 
 
 public class LoginFragment : Fragment()   {
 
     private var backPressedTime = 0L
+    var buttonClick = AlphaAnimation(1F,0.5F)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,11 +61,14 @@ public class LoginFragment : Fragment()   {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
         //(activity as MainActivity).auth
         view.btn_sign_up.setOnClickListener{
+            btn_sign_up.startAnimation(buttonClick)
             findNavController().navigate(R.id.registerFragment)
 
         }
         view.btn_log_in.setOnClickListener{
-                    doLogin()
+            btn_log_in.startAnimation(buttonClick)
+            hideKeyboard()
+            doLogin()
                 }
 
         return view

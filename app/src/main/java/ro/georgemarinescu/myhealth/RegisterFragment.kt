@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.animation.AlphaAnimation
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -27,6 +28,7 @@ class RegisterFragment : Fragment() {
     var rg: RadioGroup? = null
     var linear: LinearLayout? = null
     var originalMode : Int? = null
+    var buttonClick = AlphaAnimation(1F,0.5F)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +38,6 @@ class RegisterFragment : Fragment() {
             WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
         )
     }
-
     override fun onDestroy() {
         super.onDestroy()
         originalMode?.let { activity?.window?.setSoftInputMode(it) }
@@ -48,6 +49,7 @@ class RegisterFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_register, container, false)
         view.btn_sign_up.setOnClickListener {
+            btn_sign_up.startAnimation(buttonClick)
             signUpUser()
         }
         return view

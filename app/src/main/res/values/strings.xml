@@ -30,6 +30,7 @@
     <string name="start">Start</string>
     <string name="status_finished">Finished</string>
     <string name="status_dialing">Dialing</string>
+    <string name="Photo">Photo</string>
 
 
 </resources>

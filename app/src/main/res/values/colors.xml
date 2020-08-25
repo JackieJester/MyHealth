@@ -10,7 +10,7 @@
     <color name="orchid">#DA70D6</color>
     <color name="blue_dark">#33a6e5</color>
     <color name="orange">#fdc788</color>
-    <color name="colorUnknown">#565656</color>
+    <color name="colorUnknown">#A9A9A9</color>
     <color name="colorConnecting">#565656</color>
     <color name="colorMatching">#4094CC</color>
     <color name="colorFailed">#ED3437</color>

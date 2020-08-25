@@ -1,6 +1,7 @@
 package ro.georgemarinescu.myhealth.chat
 
 import android.app.Activity
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -15,8 +16,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import io.reactivex.rxjava3.core.CompletableSource
 import io.reactivex.rxjava3.functions.Consumer
+import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_chat_log.*
 import kotlinx.android.synthetic.main.fragment_chat_log.view.*
 import ro.georgemarinescu.myhealth.KeyboardManager
@@ -28,6 +32,7 @@ import ro.georgemarinescu.myhealth.models.Message
 import ro.georgemarinescu.myhealth.models.Profile
 import ro.georgemarinescu.myhealth.videochat.FirebaseData
 import ro.georgemarinescu.myhealth.videochat.VideoCallActivity
+import java.io.File
 
 
 class ChatFragment : Fragment() {
@@ -37,8 +42,12 @@ class ChatFragment : Fragment() {
     var otherUserId: String? = null
     var messages = arrayListOf<Message>()
     lateinit var keyboardManager: KeyboardManager
+    lateinit var storageRef: StorageReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
+        storageRef = FirebaseStorage.getInstance().getReference("images")
+        adapter = ChatAdapter()
         super.onCreate(savedInstanceState)
 
     }
@@ -46,6 +55,7 @@ class ChatFragment : Fragment() {
         inflater.inflate(R.menu.call_menu,menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.call_action) {
@@ -54,10 +64,16 @@ class ChatFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+        val localFile = File.createTempFile(currentUserId, "png")
+        val userImageRef = storageRef.child("$currentUserId.png")
+
+
         return inflater.inflate(R.layout.fragment_chat_log, container, false)
     }
 
@@ -70,10 +86,8 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        currentUserId = FirebaseAuth.getInstance().currentUser?.uid
         keyboardManager = KeyboardManager(activity as Activity)
         list = ArrayList<Message>()
-        adapter = ChatAdapter()
         adapter.items = list
         adapter.currentUserID = currentUserId ?: ""
         view.recyclerview_chatlog.adapter = adapter
@@ -81,7 +95,7 @@ class ChatFragment : Fragment() {
         adapter.notifyDataSetChanged()
         val conversationID = arguments?.getString("id")
         val doctorId = arguments?.getString("doctorId")
-        otherUserId = doctorId
+       otherUserId = doctorId
         val ref =
             FirebaseDatabase.getInstance().getReference("conversations").child(conversationID ?: "")
         val postListener = object : ValueEventListener {
@@ -92,6 +106,8 @@ class ChatFragment : Fragment() {
                     adapter.items = it
                     adapter.notifyDataSetChanged()
                     recyclerview_chatlog.scrollToPosition(messages.size - 1)
+                    if(currentUserId == otherUserId)
+                        otherUserId = conversation?.idPacient
                     return
                 }
                 conversation = Conversation(
