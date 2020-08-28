@@ -124,9 +124,13 @@ class RegisterFragment : Fragment() {
                             if (task.isSuccessful) {
                                 //salvarea baza de date
                                 val ref = FirebaseDatabase.getInstance().getReference("profiles")
+                                var specialization = ""
+                                rg?.let {
+                                    specialization =  it.findViewById<RadioButton>(it.checkedRadioButtonId)?.text.toString()
+                                }
                                 val profile = Profile(user.uid,doctor_surname.text.toString(),
                                     doctor_name.text.toString(), doctor_phone.text.toString(),
-                                    switch_btn.isChecked, rg?.findViewById<RadioButton>(rg!!.checkedRadioButtonId)!!.text.toString())
+                                    switch_btn.isChecked, specialization)
                                 ref.child(user.uid).setValue(profile)
                                 findNavController().navigate(R.id.loginFragment)
                             }
