@@ -7,6 +7,13 @@ class DataSource {
                 val list = ArrayList<CardPost>()
                 list.add(
                     CardPost(
+                        "General",
+                        "https://raw.githubusercontent.com/JackieJester/MyHealth_Images/master/General.jpg"
+
+                    )
+                )
+                list.add(
+                    CardPost(
                         "ORL",
                         "https://raw.githubusercontent.com/JackieJester/MyHealth_Images/master/ORL.jpg"
 

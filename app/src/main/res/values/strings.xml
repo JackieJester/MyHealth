@@ -31,6 +31,8 @@
     <string name="status_finished">Finished</string>
     <string name="status_dialing">Dialing</string>
     <string name="Photo">Photo</string>
+    <string name="Search_title">Search</string>
+    <string name="search_hint">Name</string>
 
 
 </resources>

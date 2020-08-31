@@ -1,10 +1,16 @@
 package ro.georgemarinescu.myhealth.chat
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.LinearLayout
+import android.widget.RatingBar
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,6 +54,15 @@ class ChatFragment : Fragment() {
         setHasOptionsMenu(true)
         storageRef = FirebaseStorage.getInstance().getReference("images")
         adapter = ChatAdapter()
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(this, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    showSimpleDialog(view!!)
+
+                }
+            }
+            )
         super.onCreate(savedInstanceState)
 
     }
@@ -56,6 +71,46 @@ class ChatFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    fun showSimpleDialog(view: View){
+        val builder:AlertDialog.Builder = AlertDialog.Builder(context)
+        val linearLayout = LinearLayout(context)
+        val ratingBar = RatingBar(context)
+        val ref =
+            FirebaseDatabase.getInstance().getReference("profiles").child(otherUserId ?: "")
+
+        ratingBar.numStars = 5
+        ratingBar.stepSize = 1F
+
+
+        linearLayout.addView(ratingBar)
+
+        builder.setTitle("Rating")
+        builder.setMessage("Please rate you experience with the doctor")
+        builder.setView(ratingBar)
+        builder.setIcon(R.drawable.call_button)
+        builder.setView(linearLayout)
+
+        builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+            run {
+                dialog.dismiss()
+                findNavController().popBackStack()
+            }
+        })
+        builder.setNegativeButton("Cancel",DialogInterface.OnClickListener{dialog, which ->
+            run {
+                dialog.dismiss()
+                findNavController().popBackStack()
+            } })
+        builder.setNeutralButton("No",DialogInterface.OnClickListener{dialog, which ->
+            run {
+                dialog.dismiss()
+                findNavController().popBackStack()
+            }
+        })
+
+        val alertDialog:AlertDialog = builder.create()
+        alertDialog.show()
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.call_action) {
@@ -95,7 +150,7 @@ class ChatFragment : Fragment() {
         adapter.notifyDataSetChanged()
         val conversationID = arguments?.getString("id")
         val doctorId = arguments?.getString("doctorId")
-       otherUserId = doctorId
+        otherUserId = doctorId
         val ref =
             FirebaseDatabase.getInstance().getReference("conversations").child(conversationID ?: "")
         val postListener = object : ValueEventListener {
