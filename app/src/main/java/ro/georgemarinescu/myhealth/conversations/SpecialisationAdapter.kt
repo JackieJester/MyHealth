@@ -46,10 +46,10 @@ class SpecialisationAdapter(var clickListner: OnSpecialisationClickListner, val 
     }
     class SpecialisationViewHolder constructor(itemView: View): RecyclerView.ViewHolder(itemView){
         private val doctorView = itemView.doctor_name
-
+        private val ratingView = itemView.doctor_rating
         fun bind(profile: Profile){
             doctorView.text = profile.name
-
+            ratingView.text= "%.2f".format(profile.previous)
             var currentUserId: String = profile.id
             val currentUserAvatar = File.createTempFile(currentUserId, "png")
             var storageRef: StorageReference = FirebaseStorage.getInstance().getReference("images")

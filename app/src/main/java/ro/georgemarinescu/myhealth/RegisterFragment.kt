@@ -58,14 +58,14 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-         linear = view?.findViewById<LinearLayout>(R.id.specialisation_list_layout)
+        linear = view?.findViewById<LinearLayout>(R.id.specialisation_list_layout)
         switch_btn.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked) {
-                makeVisible()
+               // makeVisible()
                 populateSpecialisationList()
             }
             else {
-                makeInvisible()
+               // makeInvisible()
                 if(rg != null)
                     linear?.removeView(rg)
             }
@@ -73,7 +73,7 @@ class RegisterFragment : Fragment() {
 
 
     }
-    private fun makeVisible(){
+/*    private fun makeVisible(){
         doctor_name.visibility = View.VISIBLE
         doctor_surname.visibility = View.VISIBLE
         doctor_phone.visibility = View.VISIBLE
@@ -83,8 +83,7 @@ class RegisterFragment : Fragment() {
         doctor_name.visibility = View.INVISIBLE
         doctor_surname.visibility = View.INVISIBLE
         doctor_phone.visibility = View.INVISIBLE
-
-    }
+    }*/
     private fun populateSpecialisationList(){
         rg = RadioGroup(context)
         rg?.orientation = RadioGroup.VERTICAL
@@ -113,16 +112,13 @@ class RegisterFragment : Fragment() {
             view?.password?.requestFocus()
             return
         }
-        //TODO: doctors name,surname and password errors and requestFocus
         (activity as MainActivity).auth.createUserWithEmailAndPassword(view?.username?.text.toString(), view?.password?.text.toString())
             .addOnCompleteListener(activity as MainActivity) { task ->
                 if (task.isSuccessful) {
                     val user = (activity as MainActivity).auth.currentUser
-
                     user?.sendEmailVerification()
                         ?.addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                //salvarea baza de date
                                 val ref = FirebaseDatabase.getInstance().getReference("profiles")
                                 var specialization = ""
                                 rg?.let {
@@ -135,14 +131,10 @@ class RegisterFragment : Fragment() {
                                 findNavController().navigate(R.id.loginFragment)
                             }
                         }
-
                 } else {
                     Toast.makeText(context,"Sign up failed", Toast.LENGTH_SHORT).show()
                 }
-
-
             }
-
 }
 }
 

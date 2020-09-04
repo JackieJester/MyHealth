@@ -43,7 +43,6 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             RIGHT
         else
             LEFT
-
     }
 
     override fun getItemCount(): Int {
@@ -54,14 +53,11 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when(holder){
             is MessageViewHolder ->{
                 holder.bind(items.get(position))
-
             }
         }
     }
     class MessageViewHolder constructor(itemView: View): RecyclerView.ViewHolder(itemView){
         private val messageView = itemView.message_text
-
-
         fun bind(message: Message){
             messageView.text = message.text
             var currentUserId: String = message.sender

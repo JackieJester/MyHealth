@@ -77,7 +77,6 @@ class ChatFragment : Fragment() {
         val ratingBar = RatingBar(context)
         val ref =
             FirebaseDatabase.getInstance().getReference("profiles").child(otherUserId ?: "")
-
         ratingBar.numStars = 5
         ratingBar.stepSize = 1F
 
@@ -87,11 +86,37 @@ class ChatFragment : Fragment() {
         builder.setTitle("Rating")
         builder.setMessage("Please rate you experience with the doctor")
         builder.setView(ratingBar)
-        builder.setIcon(R.drawable.call_button)
+        builder.setIcon(R.drawable.rating_star)
         builder.setView(linearLayout)
 
+        var postListener : ValueEventListener? = null
         builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
             run {
+                postListener = object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        postListener?.let {
+                            ref.removeEventListener(it)
+                        }
+                        val profile = dataSnapshot.getValue<Profile>(Profile::class.java)
+                        val previous : Float = profile?.previous ?: 0F
+                        val count : Int = profile?.count ?: 0
+                        val next = if (count != 0) {
+                            (previous * count + ratingBar.rating) / (count + 1)
+                        } else {
+                            ratingBar.rating
+                        }
+                        profile?.count = count + 1
+                        profile?.previous = next
+                        ref.setValue(profile)
+                    }
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+                }
+                postListener?.let {
+                    ref.addValueEventListener(it)
+                }
+
                 dialog.dismiss()
                 findNavController().popBackStack()
             }
@@ -101,12 +126,6 @@ class ChatFragment : Fragment() {
                 dialog.dismiss()
                 findNavController().popBackStack()
             } })
-        builder.setNeutralButton("No",DialogInterface.OnClickListener{dialog, which ->
-            run {
-                dialog.dismiss()
-                findNavController().popBackStack()
-            }
-        })
 
         val alertDialog:AlertDialog = builder.create()
         alertDialog.show()

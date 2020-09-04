@@ -44,10 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:thumbTint="@color/blue_dark"
         android:text="@string/isDoctor"
+        android:thumbTint="@color/blue_dark"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/doctor_phone" />
 
     <Button
         android:id="@+id/btn_sign_up"
@@ -75,13 +75,13 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_edittext"
-        android:padding="8dp"
         android:hint="@string/surname"
         android:inputType="textPersonName"
-        android:visibility="invisible"
+
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <EditText
         android:id="@+id/doctor_surname"
@@ -94,7 +94,6 @@
         android:padding="8dp"
         android:hint="@string/name"
         android:inputType="textPersonName"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/doctor_name" />
@@ -107,10 +106,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_edittext"
-        android:padding="8dp"
         android:hint="@string/phone"
         android:inputType="phone"
-        android:visibility="invisible"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/doctor_surname" />
@@ -120,15 +118,13 @@
         android:layout_width="409dp"
         android:layout_height="228dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/btn_sign_up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doctor_phone"
-        app:layout_constraintVertical_bias="0.272"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/switch_btn"></LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

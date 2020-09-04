@@ -102,13 +102,9 @@ public class LoginFragment : Fragment()   {
                         Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
-
-
             }
-
     }
     private fun updateUI(currentUser: FirebaseUser?) {
-
         if (currentUser != null) {
             if(currentUser.isEmailVerified){
                 val ref = FirebaseDatabase.getInstance().getReference("profiles").child(currentUser.uid)
@@ -120,11 +116,8 @@ public class LoginFragment : Fragment()   {
                         else
                             findNavController().navigate(R.id.mainScreenFragment)
                     }
-
                     override fun onCancelled(databaseError: DatabaseError) {
-                        // Getting Post failed, log a message
-                        //Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
-                        // ...
+
                     }
                 }
                 ref.addValueEventListener(postListener)
